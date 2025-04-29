@@ -5,13 +5,9 @@
 <html lang="en">
 
 <head>
-        
-        <link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+    <link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTagApp</title>
@@ -33,26 +29,26 @@
             <h2>Tagging</h2>
 
             <!-- ############### VS1Lab 1a Form 1 Start -->
-           
+             
             <form id="tag-form" action="/tagging" method="post">
                 <!-- My code -->
                 <fieldset class="fieldset_tagging">
                     <legend>Add a new GeoTag</legend>
 
-                <label for="latitude">Latitude:</label>
-                <input type="text" id="latitude" name="latitude" value="" placeholder="49.01379" disabled>
+                    <label for="latitude">Latitude:</label>
+                    <input type="text" id="latitude" name="latitude" value="" placeholder="49.01379" disabled>
 
-                <label for="longitude">Longitude:</label>
-                <input type="text" id="longitude" name="longitude" value="" placeholder="8.390071" disabled>
+                    <label for="longitude">Longitude:</label>
+                    <input type="text" id="longitude" name="longitude" value="" placeholder="8.390071" disabled>
 
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="e.g. Central Berlin" maxlength="10" pattern="^[A-Za-z]+" required>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="e.g. Central Berlin" maxlength="10" pattern="^[A-Za-z]+" required>
 
-                <label for="hashtag">Hashtag:</label>
-                <input type="text" id="hashtag" name="hashtag" placeholder="e.g. #ber" maxlength="11" pattern="^#[A-Za-z]+">  
+                    <label for="hashtag">Hashtag:</label>
+                    <input type="text" id="hashtag" name="hashtag" placeholder="e.g. #ber" maxlength="11" pattern="^#[A-Za-z]+">  
 
-                <input type="submit" value="Add Tag"></input>
-            </fieldset>
+                    <input type="submit" value="Add Tag">
+                </fieldset>
             </form>
             <!-- ############### VS1Lab 1a Form 1 End -->
         </section>
@@ -60,18 +56,17 @@
         <section class="main__discovery discovery col-9">
             <h2 class="discovery__title">Discovery</h2>
 
-
             <!-- ############### VS1Lab 1a Form 2 Start -->
             <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
-<fieldset class="fieldset_search">
-    <legend>Search</legend>
-                <label for="searchterm">Search term or keywords:</label>
-                <input type="text" id="searchTerm" name="search_term" placeholder="e.g. Berlin" required>
-                <input type="hidden" id="longitude_discovery" name="longitude" value="" disabled>
-                <input type="hidden" id="latitude_discovery" name="latitude" value="" disabled>
-                <label for="Search"></label>
-                <input type="submit" value="Search"></input>
-            </fieldset>
+                <fieldset class="fieldset_search">
+                    <legend>Search</legend>
+                    <label for="searchterm">Search term or keywords:</label>
+                    <input type="text" id="searchTerm" name="search_term" placeholder="e.g. Berlin" required>
+                    <input type="hidden" id="longitude_discovery" name="longitude" value="" disabled>
+                    <input type="hidden" id="latitude_discovery" name="latitude" value="" disabled>
+                    <label for="Search"></label>
+                    <input type="submit" value="Search">
+                </fieldset>
             </form>
             <!-- ############### VS1Lab 1a Form 2 End -->
 
@@ -83,9 +78,9 @@
                     </ul>
                 </div>
 
-                <div class="discovery__map col-12" id= "map">
+                <div class="discovery__map col-12" id="map">
                     <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
-                    <span id= 'p'>Result map</span>
+                    <span id='p'>Result map</span>
                 </div>
             </div>
         </section>

@@ -146,7 +146,6 @@ function updateLocation() {  // <-- Neue Funktion
         if (img && img.parentNode) img.parentNode.removeChild(img);  // <-- Bild endgültig entfernen
         if (desc && desc.parentNode) desc.parentNode.removeChild(desc);  // <-- Beschreibung endgültig entfernen
     });
-}
 
 
 // Wait for the page to fully load its DOM content, then call updateLocation

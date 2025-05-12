@@ -1,5 +1,3 @@
-// File origin: VS1LAB A2
-
 /* eslint-disable no-unused-vars */
 
 // This script is executed when the browser loads index.html.
@@ -112,13 +110,46 @@ class MapManager {
 }
 
 /**
- * TODO: 'updateLocation'
- * A function to retrieve the current location and update the page.
- * It is called once the page has been fully loaded.
+ * Function to retrieve the current location and update the page.
  */
-// ... your code here ...
+function updateLocation() {  // <-- Neue Funktion
+    // Zuerst das Bild und die Beschreibung ausblenden
+    const img = document.querySelector("img");
+    const desc = document.querySelector("p");
+
+    if (img) img.style.display = 'none';  // <-- Bild ausblenden
+    if (desc) desc.style.display = 'none';  // <-- Beschreibung ausblenden
+
+    LocationHelper.findLocation((locationHelper) => {
+        const latitude = locationHelper.latitude;
+        const longitude = locationHelper.longitude;
+
+        // Tagging-Formular: Sichtbare Felder
+        const tagLatField = document.querySelector("#tag-form input[name='latitude']");
+        const tagLonField = document.querySelector("#tag-form input[name='longitude']");
+
+        // Discovery-Formular: Versteckte Felder
+        const discLatField = document.querySelector("#discovery-form input[name='latitude']");
+        const discLonField = document.querySelector("#discovery-form input[name='longitude']");
+
+        if (tagLatField) tagLatField.value = latitude;
+        if (tagLonField) tagLonField.value = longitude;
+        if (discLatField) discLatField.value = latitude;
+        if (discLonField) discLonField.value = longitude;
+
+        // Karte initialisieren
+        const mapManager = new MapManager();
+        mapManager.initMap(latitude, longitude);  // <-- Neue Zeile
+        mapManager.updateMarkers(latitude, longitude);  // <-- Neue Zeile
+
+        // Nach dem Karten-Update, können wir das Bild und die Beschreibung endgültig entfernen
+        if (img && img.parentNode) img.parentNode.removeChild(img);  // <-- Bild endgültig entfernen
+        if (desc && desc.parentNode) desc.parentNode.removeChild(desc);  // <-- Beschreibung endgültig entfernen
+    });
+}
+
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    alert("Please change the script 'geotagging.js'");
+    updateLocation();
 });

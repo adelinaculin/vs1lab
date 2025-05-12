@@ -19,7 +19,10 @@ html {
   /* This approach prevents issues with 3rd party content-box components */
   box-sizing: inherit;
 }
-
+/*    A2   */
+#map { 
+  height: 500px;
+}
 
 /* Variables (example: see declaration for "a" below) */
 

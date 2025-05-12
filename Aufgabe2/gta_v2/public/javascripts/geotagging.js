@@ -130,7 +130,7 @@ function updateHtml(helper){
     const mapManager = new MapManager();
    
     mapManager.initMap(helper.latitude, helper.longitude, 18); //Zoom = 18?
-
+    //
     mapManager.updateMarkers(helper.latitude, helper.longitude, []); // spÃ¤ter tags = []
 }
 

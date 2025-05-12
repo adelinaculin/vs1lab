@@ -1,3 +1,5 @@
+// File origin: VS1LAB A2
+
 /* eslint-disable no-unused-vars */
 
 // This script is executed when the browser loads index.html.
@@ -63,6 +65,7 @@ class LocationHelper {
            alert(error.message)
         });
     }
+
 }
 
 /**
@@ -102,50 +105,57 @@ class MapManager {
             .bindPopup("Your Location")
             .addTo(this.#markers);
         for (const tag of tags) {
-            L.marker([tag.latitude,tag.longitude])
+            L.marker([tag.location.latitude,tag.location.longitude])
                 .bindPopup(tag.name)
                 .addTo(this.#markers);  
         }
     }
 }
 
-/**
- * Function to retrieve the current location and update the page.
- */
-function updateLocation() {
-    // Entfernen der Platzhalter-Elemente sofort
-    const img = document.querySelector("img");
-    const desc = document.querySelector("p");
+function updateHtml(helper){
+    console.log(helper.latitude)
+    //Kordinaten in latitude und logitude Felder eintragen 
+    const latitude = document.getElementById('latitude');
+    const longitude = document.getElementById('longitude');
+    latitude.value = helper.latitude;
+    longitude.value = helper.longitude;
 
-    if (img && img.parentNode) img.parentNode.removeChild(img);
-    if (desc && desc.parentNode) desc.parentNode.removeChild(desc);
+    //Versteckte Eingabefelder berÃ¼cksichtigen
+    const hiddenLatitude = document.getElementById('latitude_discovery');
+    const hiddenLongitude = document.getElementById('longitude_discovery');
+    hiddenLatitude.value = helper.latitude;
+    hiddenLongitude.value = helper.longitude;
 
-    LocationHelper.findLocation((locationHelper) => {
-        const latitude = locationHelper.latitude;
-        const longitude = locationHelper.longitude;
+    //funktion initMap und updateMarkers aufrufen
+    const mapManager = new MapManager();
+   
+    mapManager.initMap(helper.latitude, helper.longitude, 18); //Zoom = 18?
 
-        // Tagging-Formular: Sichtbare Felder
-        const tagLatField = document.querySelector("#tag-form input[name='latitude']");
-        const tagLonField = document.querySelector("#tag-form input[name='longitude']");
-
-        // Discovery-Formular: Versteckte Felder
-        const discLatField = document.querySelector("#discovery-form input[name='latitude']");
-        const discLonField = document.querySelector("#discovery-form input[name='longitude']");
-
-        if (tagLatField) tagLatField.value = latitude;
-        if (tagLonField) tagLonField.value = longitude;
-        if (discLatField) discLatField.value = latitude;
-        if (discLonField) discLonField.value = longitude;
-
-        // Karte initialisieren
-        const mapManager = new MapManager();
-        mapManager.initMap(latitude, longitude);
-        mapManager.updateMarkers(latitude, longitude);
-    });
+    mapManager.updateMarkers(helper.latitude, helper.longitude, []); // spÃ¤ter tags = []
 }
 
 
+
+/**
+ * TODO: 'updateLocation'
+ * A function to retrieve the current location and update the page.
+ * It is called once the page has been fully loaded.
+ */
+// ... your code here ...
+function updateLocation(){
+ //Ausleden der Position mit findLocation
+     var locationHelper = LocationHelper.findLocation(updateHtml);
+     
+}
+
+//img und p- elemente mit dom funktionen entfernen
+const img = document.getElementById('mapView');
+img.remove();
+
+const p = document.getElementById('p');
+p.remove();
+ 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    updateLocation();
+ updateLocation();
 });

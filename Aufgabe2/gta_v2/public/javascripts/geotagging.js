@@ -112,13 +112,13 @@ class MapManager {
 /**
  * Function to retrieve the current location and update the page.
  */
-function updateLocation() {  // <-- Neue Funktion
-    // Zuerst das Bild und die Beschreibung ausblenden
+function updateLocation() {
+    // Entfernen der Platzhalter-Elemente sofort
     const img = document.querySelector("img");
     const desc = document.querySelector("p");
 
-    if (img) img.style.display = 'none';  // <-- Bild ausblenden
-    if (desc) desc.style.display = 'none';  // <-- Beschreibung ausblenden
+    if (img && img.parentNode) img.parentNode.removeChild(img);
+    if (desc && desc.parentNode) desc.parentNode.removeChild(desc);
 
     LocationHelper.findLocation((locationHelper) => {
         const latitude = locationHelper.latitude;
@@ -139,13 +139,10 @@ function updateLocation() {  // <-- Neue Funktion
 
         // Karte initialisieren
         const mapManager = new MapManager();
-        mapManager.initMap(latitude, longitude);  // <-- Neue Zeile
-        mapManager.updateMarkers(latitude, longitude);  // <-- Neue Zeile
-
-        // Nach dem Karten-Update, können wir das Bild und die Beschreibung endgültig entfernen
-        if (img && img.parentNode) img.parentNode.removeChild(img);  // <-- Bild endgültig entfernen
-        if (desc && desc.parentNode) desc.parentNode.removeChild(desc);  // <-- Beschreibung endgültig entfernen
+        mapManager.initMap(latitude, longitude);
+        mapManager.updateMarkers(latitude, longitude);
     });
+}
 
 
 // Wait for the page to fully load its DOM content, then call updateLocation

@@ -112,29 +112,6 @@ class MapManager {
     }
 }
 
-function updateHtml(helper){
-    console.log(helper.latitude)
-    //Kordinaten in latitude und logitude Felder eintragen 
-    const latitude = document.getElementById('latitude');
-    const longitude = document.getElementById('longitude');
-    latitude.value = helper.latitude;
-    longitude.value = helper.longitude;
-
-    //Versteckte Eingabefelder berÃ¼cksichtigen
-    const hiddenLatitude = document.getElementById('latitude_discovery');
-    const hiddenLongitude = document.getElementById('longitude_discovery');
-    hiddenLatitude.value = helper.latitude;
-    hiddenLongitude.value = helper.longitude;
-
-    //funktion initMap und updateMarkers aufrufen
-    const mapManager = new MapManager();
-   
-    mapManager.initMap(helper.latitude, helper.longitude, 18); //Zoom = 18?
-    //
-    mapManager.updateMarkers(helper.latitude, helper.longitude, []); // spÃ¤ter tags = []
-}
-
-
 
 /**
  * TODO: 'updateLocation'
@@ -142,20 +119,35 @@ function updateHtml(helper){
  * It is called once the page has been fully loaded.
  */
 // ... your code here ...
-function updateLocation(){
- //Ausleden der Position mit findLocation
-     var locationHelper = LocationHelper.findLocation(updateHtml);
-     
-}
+function updateLocation() {
+    LocationHelper.findLocation((helper) => {
+        console.log(helper.latitude, helper.longitude);
 
-//img und p- elemente mit dom funktionen entfernen
-const img = document.getElementById('mapView');
-img.remove();
+        // Koordinaten in die sichtbaren Eingabefelder schreiben
+        const latitude = document.getElementById('latitude');
+        const longitude = document.getElementById('longitude');
+        latitude.value = helper.latitude;
+        longitude.value = helper.longitude;
 
-const p = document.getElementById('p');
-p.remove();
- 
-// Wait for the page to fully load its DOM content, then call updateLocation
+        // Koordinaten auch in die versteckten Felder (für Discovery-Formular)
+        const hiddenLatitude = document.getElementById('latitude_discovery');
+        const hiddenLongitude = document.getElementById('longitude_discovery');
+        hiddenLatitude.value = helper.latitude;
+        hiddenLongitude.value = helper.longitude;
+
+        // Karte initialisieren
+        const mapManager = new MapManager();
+        mapManager.initMap(helper.latitude, helper.longitude, 18);
+        mapManager.updateMarkers(helper.latitude, helper.longitude, []);
+
+        //P
+        const img = document.getElementById('mapView');
+        if (img) img.remove();
+
+        const p = document.getElementById('p');
+        if (p) p.remove();
+    });
+} 
 document.addEventListener("DOMContentLoaded", () => {
  updateLocation();
 });

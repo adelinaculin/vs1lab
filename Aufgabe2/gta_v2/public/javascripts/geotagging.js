@@ -112,7 +112,6 @@ class MapManager {
     }
 }
 
-
 /**
  * TODO: 'updateLocation'
  * A function to retrieve the current location and update the page.

@@ -16,6 +16,7 @@ const path = require('path');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
+const geoTagRoutes = require('./routes/geotags'); // <-- API-Router eingebunden
 
 /**
  * Set up Express app.
@@ -41,25 +42,26 @@ app.use(express.urlencoded({ extended: false }));
  * Configure path for static content.
  * Test the result in a browser here: 'http://localhost:3000/'.
  */
-
-// TODO: ... your code here ...
+app.use(express.static(path.join(__dirname, 'public'))); // <-- Statische Dateien verfügbar machen
 
 // Set dedicated script for routing
 app.use('/', indexRouter);
+app.use(geoTagRoutes); // <-- API-Router aktivieren
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    next(createError(404));
-  });
+  next(createError(404));
+});
 
 // error handler
 app.use(function(err, req, res) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};  
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-  });
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 
- module.exports = app;
+module.exports = app;

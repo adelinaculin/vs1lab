@@ -145,8 +145,24 @@ function updateLocation() {
 
         const p = document.getElementById('p');
         if (p) p.remove();
+        //A3
+        fetchAndDisplayGeoTags(helper.latitude, helper.longitude);
+
     });
+    
 } 
+function fetchAndDisplayGeoTags(latitude, longitude) {
+    const url = `/api/geotags?latitude=${latitude}&longitude=${longitude}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(tags => {
+            const mapManager = new MapManager();
+            mapManager.initMap(latitude, longitude, 18);
+            mapManager.updateMarkers(latitude, longitude, tags);
+        })
+        .catch(err => console.error('Fehler beim Abrufen der GeoTags:', err));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
  updateLocation();
 });

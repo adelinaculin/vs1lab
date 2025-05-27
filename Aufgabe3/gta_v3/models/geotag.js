@@ -3,17 +3,19 @@
 /* This script is a template for exercise VS1lab/Aufgabe3
  * Complete all TODOs in the code documentation. */
 
-// Die Klasse repräsentiert ein GeoTag, das aus einem Namen, einem Hashtag sowie geo. Koordinaten besteht 
+/** * 
+ * A class representing geotags.
+ * GeoTag objects should contain at least all fields of the tagging form.
+ */
+// models/geotag.js
+
 class GeoTag {
-    
-    // TODO: ... your code here ...
-    constructor(name, hashtag, latitude, longitude) {
-        this.name = name;
-        this.hashtag = hashtag;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    constructor(name, latitude, longitude, hashtag) {
+      this.name = name;
+      this.latitude = latitude;
+      this.longitude = longitude;
+      this.hashtag = hashtag;
     }
-
-}
-
-module.exports = GeoTag;
+  }
+  
+  module.exports = GeoTag;

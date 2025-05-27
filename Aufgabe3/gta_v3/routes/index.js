@@ -15,6 +15,13 @@ const GeoTag = require('../models/geotag');
 // The module "geotag-store" exports a class GeoTagStore. It provides an in-memory store for geotag objects.
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const GeoTagExamples = require('../models/geotag-examples');
+
+// Initialisiere den Speicher und lade Beispieldaten einmalig
+const geoTagStore = new GeoTagStore();
+GeoTagExamples.tagList.forEach(([name, lat, lon, hashtag]) => {
+    geoTagStore.addGeoTag(new GeoTag(name, lat, lon, hashtag));
+});
 
 
 /* Route '/' for HTTP 'GET' requests. (http://expressjs.com/de/4x/api.html#app.get.method)

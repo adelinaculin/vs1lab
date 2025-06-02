@@ -1,20 +1,15 @@
 // File origin: VS1LAB A3
 
-/**
- * This script is a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
- */
+/* This script is a template for exercise VS1lab/Aufgabe3
+ * Complete all TODOs in the code documentation. */
 
-/**
- * A class representing example geoTags at HKA
- * 
- * TODO: populate your InMemoryGeoTagStore with these tags
- * 
- */
+/* A class representing example geoTags at HKA
+ * TODO: populate your InMemoryGeoTagStore with these tags */
+
+const GeoTag = require ("./geotag");
+
 class GeoTagExamples {
-    /**
-     * Provides some geoTag data
-     */
+    // Provides some geoTag data
     static get tagList() {
         return [
             ['Castle', 49.013790, 8.404435, '#sight'],
@@ -29,6 +24,16 @@ class GeoTagExamples {
             ['Building B', 49.016843, 8.391372, '#campus'],
             ['Building K', 49.013190, 8.392090, '#campus'],
         ];
+    }
+
+    // Liste der GeoTag-Objekte 
+    // am Anfang leer, dann über 'tagList'-Methode iteriert --> 'GeoTag'-Objekte werden dann zur 'tagList' hinzugefügt und zurückgegeben
+    static get tagList2() {
+        var tagList = [];
+        GeoTagExamples.tagList.forEach (tag => {
+            tagList.push (new GeoTag(tag[0], tag[3], tag[1], tag[2]));
+        });
+        return tagList;
     }
 }
 

@@ -13,55 +13,58 @@
  * - The proximity is computed by means of a radius around the location.
  * Provide a method 'searchNearbyGeoTags' that returns all geotags in the proximity of a location that match a keyword.
  * - The proximity constrained is the same as for 'getNearbyGeoTags'.
- * - Keyword matching should include partial matches from name or hashtag fields. 
- */
-// File origin: VS1LAB A3
+ * - Keyword matching should include partial matches from name or hashtag fields. */
 
-const GeoTag = require('./geotag');
+// Klasse zur Verwaltung von GeoTags im Speicher
+
+const GeoTagExamples = require ('./geotag-examples');
 
 class InMemoryGeoTagStore {
-  // Konstruktor: internes Array zur Speicherung der GeoTags
-  constructor() {
-    this._geoTags = [];
-  }
+    #geotags;
 
-  // Fügt ein neues GeoTag hinzu
-  addGeoTag(geoTag) {
-    this._geoTags.push(geoTag);
-  }
+    // TODO: ... your code here ...
+    // Dieser Konstruktor initialisieret die 'geotags' mit einer Liste von GeoTags, die aus 'tagList2' importiert werden
+    constructor(){
+        this.geotags = GeoTagExamples.tagList2;
+    }
 
-  // Entfernt GeoTags mit dem gegebenen Namen
-  removeGeoTag(name) {
-    this._geoTags = this._geoTags.filter(tag => tag.name !== name);
-  }
+    addGeoTag (geotag){
+        this.geotags.push (geotag);
+    }
 
-  // Gibt alle GeoTags im Umkreis von radius (in km) um lat/lon zurück
-  getNearbyGeoTags(lat, lon, radius = 10) {
-    return this._geoTags.filter(tag => 
-      this._distance(lat, lon, tag.latitude, tag.longitude) <= radius
-    );
-  }
+    removeGeoTag (name){
+        this.geotags = this.geotags.filter (geotag => geotag.name != name);
+    }
 
-  // Gibt GeoTags im Umkreis zurück, die zusätzlich ein Keyword enthalten
-  searchNearbyGeoTags(lat, lon, radius, keyword) {
-    return this.getNearbyGeoTags(lat, lon, radius).filter(tag =>
-      tag.name.toLowerCase().includes(keyword.toLowerCase()) ||
-      tag.hashtag.toLowerCase().includes(keyword.toLowerCase())
-    );
-  }
+    getGeoTags() {
+        return this.geotags;
+    }
 
-  // Hilfsmethode zur Berechnung der Entfernung zweier Koordinaten (Haversine)
-  _distance(lat1, lon1, lat2, lon2) {
-    const toRad = deg => deg * Math.PI / 180;
-    const R = 6371; // Erdradius in km
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) ** 2 +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-              Math.sin(dLon / 2) ** 2;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  }
+    // Ausgabe als JSON-String
+    getGeoTagsAsJSON() {
+        return JSON.stringify (this.geotags);
+    }
+
+    getNearbyGeoTags (location) {
+        return this.geotags.filter(geotag => this.#isNearby (location, geotag));
+    }
+
+    searchNearbyGeoTags (searchObject){
+        const searchTerm = searchObject.searchTerm.toLowerCase();
+        return this.geotags.filter (geotag => this.#isNearby (searchObject, geotag) && 
+        (
+            geotag.name.toLowerCase().includes (searchTerm) || 
+            geotag.hashtag.toLowerCase().includes (searchTerm)
+        ));
+    }
+
+    #isNearby(center, location2, r = 10000){
+        var x = location2.latitude - center.latitude;
+        var y = location2.longitude - center.longitude;
+       return Math.sqrt(x*x + y*y) <= r;
+    }
+
+    
 }
 
 module.exports = InMemoryGeoTagStore;

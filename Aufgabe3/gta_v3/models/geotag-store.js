@@ -58,7 +58,7 @@ class InMemoryGeoTagStore {
         ));
     }
 
-    #isNearby(center, location2, r = 10000){
+    #isNearby(center, location2, r = 0.5){
         var x = location2.latitude - center.latitude;
         var y = location2.longitude - center.longitude;
        return Math.sqrt(x*x + y*y) <= r;
